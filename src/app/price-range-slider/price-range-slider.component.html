@@ -1,0 +1,9 @@
+<div class="price-range-slider">
+    <input type="range" [min]="minPrice" [max]="maxPrice" [value]="temporaryPriceRange[0]" (input)="onPriceChange($event, 'min')" />
+    <input type="range" [min]="minPrice" [max]="maxPrice" [value]="temporaryPriceRange[1]" (input)="onPriceChange($event, 'max')" />
+    <div class="price-labels">
+      <span>{{ temporaryPriceRange[0] | currency: 'USD' }}</span>
+      <span>{{ temporaryPriceRange[1] | currency: 'USD' }}</span>
+    </div>
+  </div>
+  

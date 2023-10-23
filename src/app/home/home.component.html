@@ -1,0 +1,147 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Home Page</h2>
+
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Home Page</h2>
+
+    <!-- Search Form with custom styles -->
+    <form (ngSubmit)="searchGames()" #searchForm="ngForm">
+      <section class="border p-4 mb-4 d-flex align-items-center flex-column">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <!-- Container wrapper -->
+          <div class="container-fluid">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="#">Filtreaza</a>
+
+            <!-- Toggle button -->
+
+            <div class="input-group ps-5">
+              <div id="navbar-search-autocomplete" class="form-outline">
+                <input
+                  type="search"
+                  placeholder="Nume joc"
+                  name="gameName"
+                  [(ngModel)]="searchQuery.name"
+                  placeholder="Nume joc"
+                  id="form1"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <!-- Left links -->
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <select
+                    class="select nav-link active"
+                    id="genre"
+                    name="genre"
+                    [(ngModel)]="searchQuery.genre"
+                    aria-current="page"
+                  >
+                    <option value="">Toate</option>
+                    <option value="Action">Actiune</option>
+                    <option value="RPG">RPG</option>
+                  </select>
+                </li>
+
+                <li class="nav-item">
+                  <select
+                    class="select nav-link active"
+                    id="sort"
+                    name="sort"
+                    [(ngModel)]="sortOrder"
+                    data-mdb-filter="true"
+                    aria-current="page"
+                  >
+                    <option value="asc">Crescator</option>
+                    <option value="desc">Descrescator</option>
+                  </select>
+                </li>
+
+                <!-- Navbar dropdown -->
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-search">&#10165;</i>
+                </button>
+              </ul>
+              <!-- Left links -->
+
+              <!-- Search form -->
+            </div>
+            <!-- Collapsible wrapper -->
+          </div>
+          <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+        <app-price-range-slider
+          [minPrice]="0"
+          [maxPrice]="100"
+          (priceRangeChange)="onPriceRangeChange($event)"
+        ></app-price-range-slider>
+      </section>
+      <button
+        type="button"
+        class="btn btn-warning"
+        routerLink="/login"
+        *ngIf="!(authService.isLoggedIn$ | async)"
+      >
+        Log In
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning"
+        routerLink=""
+        *ngIf="authService.isLoggedIn$ | async"
+        (click)="logout()"
+      >
+        Log Out
+      </button>
+      <div style="text-align: right">
+        <form (ngSubmit)="searchGames()">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="navigateToAddGamePage()"
+            *ngIf="authService.isLoggedIn$ | async"
+          >
+            Add Game
+          </button>
+        </form>
+      </div>
+    </form>
+
+    <!-- Movies in Bootstrap Cards -->
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let game of initialGames">
+        <div class="card mb-4" style="height: 370px;">
+          <img
+            class="card-img-top"
+            src="{{ game.imageUrl }}"
+            alt="{{ game.name }}"
+            style="height: 200px;"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ game.name }}</h5>
+            <p class="card-text">Gen: {{ game.genre }}</p>
+            <p class="card-text">
+              Preț: {{ game.price | currency : "USD" : "symbol" : "1.2-2" }}
+            </p>
+            <form (ngSubmit)="searchGames()">
+              <button
+                type="submit"
+                class="btn btn-danger"
+                *ngIf="authService.isLoggedIn$ | async"
+                (click)="deleteGame(game)"
+              >
+                Sterge joc
+              </button>
+              <!-- Add buttons for delete and export here if needed -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
