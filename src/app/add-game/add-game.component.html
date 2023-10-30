@@ -1,23 +1,62 @@
-<form  #gameForm="ngForm" class="add">
-    <div class="form-group">
-      <label for="name">Nume</label>
-      <input type="text" id="name" name="name" [(ngModel)]="newGame.name" required class="form-control"  placeholder="Nume Joc">
-    </div>
-    <div class="form-group">
+<div class="body">
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Add Game</h2>
+    <form #gameForm="ngForm" class="add">
+      <div class="form-group">
+        <label for="name">Nume</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="newGame.name"
+          required
+          class="form-control"
+          placeholder="Nume Joc"
+        />
+      </div>
+      <div class="form-group">
         <label for="genre">Gen</label>
-        <input type="text" id="genre" name="genre" [(ngModel)]="newGame.genre" required class="form-control"  placeholder="Action">
+        <input
+          type="text"
+          id="genre"
+          name="genre"
+          [(ngModel)]="newGame.genre"
+          required
+          class="form-control"
+          placeholder="Action"
+        />
       </div>
       <div class="form-group">
         <label for="price">Pret</label>
-        <input type="number" id="price" name="price" [(ngModel)]="newGame.price" required class="form-control"  placeholder="99.99$">
+        <input
+          type="number"
+          id="price"
+          name="price"
+          [(ngModel)]="newGame.price"
+          required
+          class="form-control"
+          placeholder="99.99$"
+        />
       </div>
       <div class="form-group">
         <label for="imageUrl">Imagine(url)</label>
-        <input type="text" id="imageUrl" name="imageUrl" [(ngModel)]="newGame.imageUrl" required class="form-control"  placeholder="https://Imagine">
+        <input
+          type="text"
+          id="imageUrl"
+          name="imageUrl"
+          [(ngModel)]="newGame.imageUrl"
+          required
+          class="form-control"
+          placeholder="https://Imagine"
+        />
       </div>
-      <button type="submit" class="btn btn-primary butonsubmit" (click)="addGame(gameForm)">Submit</button>
-
-  </form>
-
-  
-  
+      <button
+        type="submit"
+        class="btn btn-primary butonsubmit"
+        (click)="addGame()"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

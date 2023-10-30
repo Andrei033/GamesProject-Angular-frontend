@@ -1,23 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Subject,Observable  } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private games: any[] = [];
-  private gameAddedSubject: Subject<any> = new Subject<any>();
+  private baseUrl = 'http://localhost:3000';
 
-  addGame(newGame: any) {
-    this.games.push(newGame);
-    this.gameAddedSubject.next(newGame); // Emit the new game when it's added
-    console.log('addGame method called');
-  }
+  constructor(private http: HttpClient) {}
 
   getGames() {
-    return this.games;
+    return this.http.get<any[]>(`${this.baseUrl}/games`);
   }
 
-  gameAdded$(): Observable<any> {
-    return this.gameAddedSubject.asObservable();
+  addGame(newGame: any) {
+    return this.http.post(`${this.baseUrl}/games`, newGame);
+  }
+
+  getGameById(gameId: number): Observable<any> {
+    const url = `${this.baseUrl}/${gameId}`;
+    return this.http.get<any>(url);
+  }
+
+  updateGame(gameId: number, updatedGame: any): Observable<any> {
+    const url = `${this.baseUrl}/${gameId}`;
+    return this.http.put<any>(url, updatedGame);
+  }
+
+  deleteGame(gameId: number): Observable<void> {
+    const url = `${this.baseUrl}/games/${gameId}`;
+    return this.http.delete<void>(url);
   }
 }

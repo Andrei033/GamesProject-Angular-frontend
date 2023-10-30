@@ -85,7 +85,7 @@
         type="button"
         class="btn btn-warning"
         routerLink="/login"
-        *ngIf="!(authService.isLoggedIn$ | async)"
+        *ngIf="!(authService.isLoggedIn$() | async)"
       >
         Log In
       </button>
@@ -93,7 +93,7 @@
         type="button"
         class="btn btn-warning"
         routerLink=""
-        *ngIf="authService.isLoggedIn$ | async"
+        *ngIf="(authService.isLoggedIn$() | async)"
         (click)="logout()"
       >
         Log Out
@@ -104,7 +104,7 @@
             type="button"
             class="btn btn-success"
             (click)="navigateToAddGamePage()"
-            *ngIf="authService.isLoggedIn$ | async"
+            *ngIf="(authService.isLoggedIn$() | async)"
           >
             Add Game
           </button>
@@ -132,10 +132,18 @@
               <button
                 type="submit"
                 class="btn btn-danger"
-                *ngIf="authService.isLoggedIn$ | async"
+                *ngIf="(authService.isLoggedIn$() | async)"
                 (click)="deleteGame(game)"
               >
                 Sterge joc
+              </button>
+              <button
+                type="submit"
+                class="btn btn-warning"
+                *ngIf="(authService.isLoggedIn$() | async)"
+                [routerLink]="['/update-game', game.id]"
+              >
+                Update
               </button>
               <!-- Add buttons for delete and export here if needed -->
             </form>

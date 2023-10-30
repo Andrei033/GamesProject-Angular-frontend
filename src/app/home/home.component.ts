@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit ,OnDestroy {
 
   ngOnInit(): void {
     // Simulăm încărcarea inițială a datelor (înlocuiți cu date reale dintr-un serviciu)
-    this.games = [
+    /*this.games = [
       { name: 'Call of duty', genre: 'Action', price: 29.99, imageUrl:'https://static.tweaktown.com/news/16x9/90313_report-call-of-duty-2023-will-be-full-game-with-campaign.png'},
       { name: 'Elden Ring', genre: 'RPG', price: 39.99, imageUrl:'https://assets.nuuvem.com/image/upload/v1/products/618418052f91a002e3f9cf6b/sharing_images/dl3d5ccidn9wlkemhfjr.jpg'},
       { name: 'Counter-Strike', genre: 'Action', price:19.99,imageUrl:'https://zonait.ro/wp-content/uploads/2021/01/CS-GO.jpg' },
@@ -36,17 +36,21 @@ export class HomeComponent implements OnInit ,OnDestroy {
       {name: 'Resident evil', genre:'Action', price:'65.99',imageUrl:'https://cdn.cloudflare.steamstatic.com/steam/apps/883710/capsule_616x353.jpg?t=1692001351' }, 
       {name: 'Terraria', genre:'RPG', price:'70.99',imageUrl:'https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg?t=1666290860' }
       // Adăugați mai multe jocuri aici
-    ];
+    ];*/
     
     if(i==0)
     {
-      this.initialGames = this.games.slice(0, 5);
+      this.gameService.getGames().subscribe((games) => {
+        this.games = games;
+        this.initialGames = games.slice(0, 5);
+      });
       i++;
     }
     else{
-      this.newgames = this.gameService.getGames();
-    this.games=this.games.concat(this.newgames);
-      this.initialGames=this.games;
+      this.gameService.getGames().subscribe((games) => {
+        this.games = games;
+        this.initialGames=this.games;
+      });
     }
     
     
@@ -59,10 +63,16 @@ export class HomeComponent implements OnInit ,OnDestroy {
 
   onGameAdded(newGame: any) {
     
-    this.newgames.push(newGame);
-    console.log("de cate ori")
-    this.gameService.gameAdded$().subscribe((newGame) => {
-      this.onGameAdded(newGame);
+    this.gameService.addGame(newGame).subscribe((response) => {
+      // Handle the response if needed
+      console.log('New game added:', response);
+      
+      // You can choose to refresh the games list here if required.
+      // Fetch the updated games from the server.
+      this.gameService.getGames().subscribe((games) => {
+        this.games = games;
+        //this.initialGames = games.slice(0, 5);
+      });
     });
     
   }
@@ -137,17 +147,21 @@ export class HomeComponent implements OnInit ,OnDestroy {
   }
 
   deleteGame(game: any) {
-    // Găsiți indexul jocului în lista de jocuri
-    const index = this.games.indexOf(game);
-  
-    // Verificați dacă jocul a fost găsit în listă
-    if (index !== -1) {
-      // Ștergeți jocul din lista de jocuri
-      this.games.splice(index, 1);
-      
-      // Actualizați lista filtrată (dacă este necesar)
-      
-    }
-    //this.filterAndSortGames();
-  }
+  const gameId = game.id; // Assuming you have an 'id' property in the game object
+
+  // Send an HTTP DELETE request to the server to delete the game by ID
+  this.gameService.deleteGame(gameId).subscribe(() => {
+    // Handle the success response or any additional logic
+    console.log('Game deleted successfully');
+    // Update the games list by fetching the updated list from the server
+    
+    
+      this.router.navigate(['']);
+   
+  });
+  this.gameService.getGames().subscribe((games) => {
+    this.games = games;
+    this.initialGames=this.games;
+  });
+}
 }

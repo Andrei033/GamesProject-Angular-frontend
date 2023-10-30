@@ -10,15 +10,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PriceRangeSliderComponent } from './price-range-slider/price-range-slider.component';
 import { AuthService } from './auth.service';
 import { GameService } from './game.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UpdateGameComponent } from './update-game/update-game.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
     AddGameComponent,
-    PriceRangeSliderComponent
+    PriceRangeSliderComponent,
+    UpdateGameComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
