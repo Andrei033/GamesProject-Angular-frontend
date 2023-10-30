@@ -17,12 +17,12 @@ export class AddGameComponent  implements OnInit   {
   addGame() {
     if (this.newGame.price <= 0) {
       alert('Prețul trebuie să fie mai mare de 0');
-      return; // Ieșiți din funcție fără a face cererea HTTP.
+      return; 
     }
 
     if (this.newGame.name!= undefined && this.newGame.name.length < 5) {
       alert('Numele trebuie să aibă cel puțin 5 caractere');
-      return; // Ieșiți din funcție fără a face cererea HTTP.
+      return; 
     }
     
     if (!this.newGame.name || !this.newGame.genre || !this.newGame.price) {
@@ -31,9 +31,8 @@ export class AddGameComponent  implements OnInit   {
     }
     this.gameService.addGame(this.newGame).subscribe((game) => {
       console.log('Jocul a fost adăugat cu succes:', game);
-      // Resetați formularul sau efectuați alte acțiuni necesare
       this.newGame = {};
-      this.router.navigate(['']); // Navigați înapoi la pagina principală
+      this.router.navigate(['']); 
     });
   }
 

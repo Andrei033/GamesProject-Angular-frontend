@@ -21,8 +21,6 @@ export class UserService {
   loginUser(user: User) {
     return this.http.post(`${this.baseUrl}/user/login`, user);
   }
-
-  // Add other user-related methods as needed
 }
 
 

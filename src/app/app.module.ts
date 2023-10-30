@@ -12,6 +12,8 @@ import { AuthService } from './auth.service';
 import { GameService } from './game.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UpdateGameComponent } from './update-game/update-game.component';
+import { AuthGuard } from './auth.guard'; 
+import { PermissionsService } from './permissions.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,7 @@ import { UpdateGameComponent } from './update-game/update-game.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService,GameService],
+  providers: [AuthService,GameService,AuthGuard,PermissionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

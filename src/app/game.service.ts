@@ -18,12 +18,12 @@ export class GameService {
   }
 
   getGameById(gameId: number): Observable<any> {
-    const url = `${this.baseUrl}/${gameId}`;
+    const url = `${this.baseUrl}/games/${gameId}`;
     return this.http.get<any>(url);
   }
 
   updateGame(gameId: number, updatedGame: any): Observable<any> {
-    const url = `${this.baseUrl}/${gameId}`;
+    const url = `${this.baseUrl}/games/${gameId}`;
     return this.http.put<any>(url, updatedGame);
   }
 

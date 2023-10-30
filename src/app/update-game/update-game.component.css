@@ -1,0 +1,16 @@
+h2.text-center {
+    background-color: #f8fd6e; 
+    color: #000000; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+  }
+
+  h2.text-center {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .update{
+    width: 40%;
+    margin-left: 30%;
+    margin-bottom: 60px;
+}

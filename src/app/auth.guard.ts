@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
+import { PermissionsService } from './permissions.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard {
+  constructor(private permissionsService: PermissionsService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isLoggedIn$()) {
-      // Check for token expiration
-      this.authService.checkTokenExpiration();
-      return true;
-    } else {
-      return this.router.parseUrl('/login'); // Return a UrlTree to navigate to the login route
-    }
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> {
+    const isAuthorized: Observable<boolean> = this.permissionsService.canActivate(next, state);
+    console.log("User ",isAuthorized);
+  
+    return isAuthorized.pipe(
+      map(authorized => {
+        if (authorized) {
+          return true; 
+        } else {
+          
+          return this.router.createUrlTree(['/login']); 
+        }
+      })
+    );
   }
 }

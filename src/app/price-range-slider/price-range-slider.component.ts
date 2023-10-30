@@ -18,8 +18,6 @@ export class PriceRangeSliderComponent {
     } else {
       this.temporaryPriceRange[1] = event.target.value;
     }
-
-    // Immediately emit the price range change event when the sliders are adjusted
     this.priceRangeChange.emit(this.temporaryPriceRange);
   }
 }
